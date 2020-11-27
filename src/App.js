@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const fetchEvents = async () => {
     setLoading(true)
-    const res = await fetch('https://mfapps.indiatimes.com/ET_Calculators/oilpricebycitystate.htm');
+    const res = await fetch('https://cors-anywhere.herokuapp.com/https://mfapps.indiatimes.com/ET_Calculators/oilpricebycitystate.htm');
     const { results } = await res.json();
     setEventData(results)
     setLoading(false)
