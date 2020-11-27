@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+//Refer https://github.com/bradtraversy/wildfire-tracker
+import Map from './components/Map'
+import Loader from './components/Loader'
+import { useEffect, useState } from 'react'
+import Header from './components/Header'
 
 function App() {
+  const [eventData, setEventData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const fetchEvents = async () => {
+    setLoading(true)
+    const res = await fetch('https://mfapps.indiatimes.com/ET_Calculators/oilpricebycitystate.htm');
+    const { results } = await res.json();
+    setEventData(results)
+    setLoading(false)
+  }
+  useEffect(() => {
+    fetchEvents();
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      {!loading ? <Map eventData={eventData} /> : <Loader />}
     </div>
   );
 }
